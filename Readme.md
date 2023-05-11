@@ -18,8 +18,4 @@
 <h2>Model.py</h2>
 <p>This file show the tables in database like model.</p>
 
-<h2>Error</h2>
-<p>Error in Line 8 (File name model.py)</p>
-<p>Error in Line 1 (File name Database.py)</p>
-<p>
 To run this code ->  uvicorn App.main:app --reload</p>

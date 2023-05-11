@@ -1,9 +1,10 @@
-from Database import Base
+from App.Database import Base
 from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.sql.expression import null
 
 
 class Post(Base):
-    __table_name__ = "posts"
+    __tablename__ = "post"
     id = Column(Integer, primary_key=True, nullable=False)
     title = Column(String, nullable=False)
     content = Column(String, nullable=False)

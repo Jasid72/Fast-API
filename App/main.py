@@ -5,9 +5,11 @@ from fastapi.exceptions import HTTPException
 from fastapi import Depends
 from pydantic import BaseModel
 import time
-from . import model
 from Database import engine, SessionLocal
 from sqlalchemy.orm import Session
+import sys
+sys.path.append(r"A:\Fast-API\App")
+import model
 
 model.Base.metadata.create_all(bind=engine)
 
