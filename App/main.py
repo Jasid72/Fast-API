@@ -38,12 +38,6 @@ def index():
     return {"My First Api"}
 
 
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db())):
-    posts = db.query(model.Post).all()
-    return {"Data": posts}
-
-
 class Post(BaseModel):
     title: str
     content: str
