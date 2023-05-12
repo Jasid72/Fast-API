@@ -1,27 +1,19 @@
 import mysql.connector
 from fastapi.openapi.models import Response
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status, Depends
 from fastapi.exceptions import HTTPException
-from fastapi import Depends
 from pydantic import BaseModel
 import time
-from Database import engine, SessionLocal
+from App.Database import engine, get_db
 from sqlalchemy.orm import Session
 import sys
 sys.path.append(r"A:\Fast-API\App")
 import model
 
+
 model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 while True:
@@ -40,13 +32,16 @@ while True:
         print("Error", error)
         time.sleep(2)
 
-my_post = [{"title": "title of 1st Post", "content": "comment of 1st Post", "id": 1},
-           {"title": "Tracking", "content": "Vibes", "id": 2}]
-
 
 @app.get("/")
 def index():
     return {"My First Api"}
+
+
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db())):
+    posts = db.query(model.Post).all()
+    return {"Data": posts}
 
 
 class Post(BaseModel):
@@ -117,6 +112,4 @@ def update(id: str, post: Post):
     return {'Data': myresult}
 
 
-@app.get("/Test")
-def test(db: Session = Depends(get_db)):
-    return {"session": "Success"}
+
