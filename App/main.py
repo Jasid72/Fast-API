@@ -2,10 +2,9 @@ import mysql.connector
 from fastapi.openapi.models import Response
 from fastapi import FastAPI, status, Depends
 from fastapi.exceptions import HTTPException
-from pydantic import BaseModel
 import time
-from App.Database import engine, get_db
-from sqlalchemy.orm import Session
+from App.Database import engine
+from App.schemas import CreatePost
 import sys
 sys.path.append(r"A:\Fast-API\App")
 import model
@@ -38,12 +37,6 @@ def index():
     return {"My First Api"}
 
 
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool
-
-
 mycursor = mydb.cursor()
 
 
@@ -57,7 +50,7 @@ def index():
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_post(post: Post):
+def create_post(post: CreatePost):
 
     query = "insert into post(title, content) values (%s, %s)"
     query2 = "SELECT * FROM post"
@@ -92,7 +85,7 @@ def delete(id: str):
 
 
 @app.put("/posts/{id}")
-def update(id: str, post: Post):
+def update(id: str, post: CreatePost):
 
     query = f"update post set title = %s, content = %s, published = %s where id= {id}"
     query2 = f"select * from post where id = {id}"
